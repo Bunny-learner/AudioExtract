@@ -12,21 +12,27 @@ const [src,setsrc]=useState(" ")
 const [text,settext]=useState(" ")
 const [loading,setloading]=useState(false)
 const [c,setc]=useState(false)
-const [link,setlink]=useState("")
 const [id,setid]=useState("")
+const [ex,setex]=useState('m4a')
 
   const getaudio = async () => {
     
     
     const url = document.getElementsByClassName('url')[0].value
+     const videoId = extractVideoId(url);
+    setid(`https://www.youtube.com/embed/${videoId}`) 
+
     if(url.startsWith("https://"))
   {
-    console.log("hello",url)
-    setlink(url)
+
+
+    if(ex=='m4a'){
+    const format=ex
+    console.log("hello",url,format)
     setc(true)
+    
     setloading(true)
-    const videoId = extractVideoId(url);
-    setid(`https://www.youtube.com/embed/${videoId}`)
+   
     settext('Loading, please wait..... ')
     const response =await fetch("http://localhost:3000/url", {
       method: "POST",
@@ -34,7 +40,8 @@ const [id,setid]=useState("")
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-       url:url
+       url:url,
+       format:format
       })
     })
 
@@ -45,15 +52,38 @@ const [id,setid]=useState("")
     setTimeout(() => {
      
       setloading(false)
-      settext("You can download your audio file now.")
-    }, 3000);
+      settext(`You can download your audio ${ex} file now.`)
+    }, 500);
    
-    setsrc(msg.src)}}
+    setsrc(msg.src)}
+  console.log(msg.src)}
 
-    else
+else{
+setc(true);
+settext("Wait few seconds");
+console.log(id)
+setTimeout(async () => {
+  await triggerDownload(url, ex);
+  settext("Downloading has finished.");
+}, 1000);
+
+}
+  }
+  else
   alert('Enter a valid Url')
   }
 
+ async function triggerDownload(url, format) {
+  const downloadUrl = `http://localhost:3000/diffurl?url=${encodeURIComponent(url)}&format=${format}`;
+  const a = document.createElement('a');
+  a.href = downloadUrl;
+  a.download = `audio.${format}`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  
+  return {response:"success"};
+}
  function extractVideoId(url) {
       const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
       const match = url.match(regex);
@@ -65,6 +95,12 @@ const [id,setid]=useState("")
       setc(false)
   }
 
+  function see(e){
+    const val=e.target.value
+    if(val==='mp3'||val==='wav')
+    setex(val)
+  }
+
   return (
     <div className='content'>
 
@@ -72,6 +108,11 @@ const [id,setid]=useState("")
         <label htmlFor="texty">Enter the Url:</label>
         
           <input type="text" onChange={look} id="texty" className="url" />
+          <select name="format" onChange={see} id="f">
+            <option selected value="m4a">Mp4</option>
+            <option  value="mp3">Mp3</option>
+            <option value="wav">Wav</option>
+          </select>
           <button onClick={getaudio}>Get</button>
       </div>
 
@@ -80,7 +121,8 @@ const [id,setid]=useState("")
     <>
     <div className="video">
       <h3>Youtube Video</h3>
-      <iframe
+      <span>
+         <iframe
   width="760"
   height="415"
   src={id}
@@ -88,12 +130,15 @@ const [id,setid]=useState("")
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
   allowfullscreen
 ></iframe>
+      </span>
+     
 
     </div><br />
     <div className="audio">
       <h2>{text}</h2>
-      <audio controls src={src}></audio>
-    </div></>
+      {src &&<audio controls src={src}></audio>}
+    </div>
+    </>
     
   ) : (
     <>

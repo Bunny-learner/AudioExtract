@@ -12,6 +12,10 @@
 }
 
 
+.video span{
+    justify-content: center;
+    display:flex;
+}
 button{
     padding:20px;
     width:100px;
