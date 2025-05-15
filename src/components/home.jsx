@@ -97,7 +97,6 @@ setTimeout(async () => {
 
   function see(e){
     const val=e.target.value
-    if(val==='mp3'||val==='wav')
     setex(val)
   }
 
