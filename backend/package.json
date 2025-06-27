@@ -1,35 +1,35 @@
 {
-    "type": "module",
-    "dependencies": {
-        "bcrypt": "^5.1.1",
-        "cloudinary": "^2.5.1",
-        "cookie-parser": "^1.4.7",
-        "cookieparser": "^0.1.0",
-        "cors": "^2.8.5",
-        "dotenv": "^16.4.7",
-        "ejs": "^3.1.10",
-        "express": "^4.21.1",
-        "jsonwebtoken": "^9.0.2",
-        "mongoose": "^8.8.3",
-        "multer": "^1.4.5-lts.1",
-        "nodemon": "^3.1.9",
-        "passport": "^0.7.0",
-        "passport-google-oauth": "^2.0.0",
-        "passport-google-oauth20": "^2.0.0",
-        "swiper": "^11.1.15",
-        "yt-dlp-exec": "^1.0.2"
-    },
-    "name": "ecommerce",
-    "version": "1.0.0",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node start.js",         
-    "dev": "nodemon start.js" ,
-        "postinstall": "chmod +x ./backend/bin/yt-dlp"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "description": ""
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
+    "cookieparser": "^0.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.3",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.9",
+    "passport": "^0.7.0",
+    "passport-google-oauth": "^2.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "swiper": "^11.1.15",
+    "yt-dlp-exec": "^1.0.2"
+  },
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node start.js",
+    "dev": "nodemon start.js",
+    "postinstall": "chmod +x ./backend/bin/yt-dlp"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
