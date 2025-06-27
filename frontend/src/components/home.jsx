@@ -105,7 +105,7 @@ startTimer()
   
 
   const startTimer = () => {
-  setcounter(30); 
+  setcounter(40); 
   const id = setInterval(() => {
     setcounter((prev) => {
       if (prev <= 1) {
