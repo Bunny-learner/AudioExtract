@@ -2,10 +2,12 @@ import { asynchandler } from "../utils/asynchandler.js"
 import fs from 'fs'
 import path from 'path'
 import os from 'os'
-import ytdlpExec from 'yt-dlp-exec';
-const ytdlp = ytdlpExec.create({
+import { create } from 'yt-dlp-exec';
+
+const ytdlp = create({
   binary: './bin/yt-dlp'
 });
+
 
 const diffurl = asynchandler(async (req, res) => {
   const url = req.query.url;
