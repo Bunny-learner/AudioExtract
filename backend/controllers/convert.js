@@ -2,7 +2,7 @@ import { asynchandler } from "../utils/asynchandler.js"
 import fs from 'fs'
 import path from 'path'
 import os from 'os'
-import { create } from 'yt-dlp-exec';
+import ytdlp from '../utils/ytdlp.js';
 
 const ytdlp = create({
   binary: './bin/yt-dlp'
