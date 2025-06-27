@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 dotenv.config()
 try {
     
-    apk.listen(PORT,'0.0.0.0',()=>{
+    apk.listen(PORT,()=>{
         console.log(`listening to port ${PORT}`)})
         
 } catch (error) {
