@@ -25,8 +25,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node start.js",
-    "dev": "nodemon start.js",
-    "postinstall": "chmod +x ./backend/bin/yt-dlp"
+    "dev": "nodemon start.js"
   },
   "keywords": [],
   "author": "",
