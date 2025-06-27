@@ -4,9 +4,6 @@ import path from 'path'
 import os from 'os'
 import ytdlp from '../utils/ytdlp.js';
 
-const ytdlp = create({
-  binary: './bin/yt-dlp'
-});
 
 
 const diffurl = asynchandler(async (req, res) => {
