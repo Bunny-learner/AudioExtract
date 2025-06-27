@@ -38,7 +38,7 @@ const [intervalId,setIntervalId]=useState(null)
     startTimer()
     
     
-    const response =await fetch("http://192.168.1.2:3000/url", {
+    const response =await fetch("https://mediaextractor.onrender.com/url", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +124,7 @@ const stopTimer = () => {
 };
 
  async function triggeraudioDownload(url, format) {
-  const downloadUrl = `http://192.168.1.2:3000/audio?url=${encodeURIComponent(url)}&format=${format}`;
+  const downloadUrl = `https://mediaextractor.onrender.com/audio?url=${encodeURIComponent(url)}&format=${format}`;
   const a = document.createElement('a');
   a.href = downloadUrl;
   a.download = `audio.${format}`;
@@ -137,7 +137,7 @@ const stopTimer = () => {
 
 
  async function fetchvideo(url) {
-  const response =await fetch(`http://192.168.1.2:3000/video?url=${encodeURIComponent(url)}`);
+  const response =await fetch(`https://mediaextractor.onrender.com/video?url=${encodeURIComponent(url)}`);
   const blob = await response.blob();
   const videoURL = URL.createObjectURL(blob);
   setvideosrc(videoURL);
