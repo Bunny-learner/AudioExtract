@@ -16,12 +16,6 @@ const custom = create(ytdlpPath);
 console.log(custom)
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const ytdlpPath = path.join(__dirname, '../bin/yt-dlp');
-
-
 const diffurl = asynchandler(async (req, res) => {
   const url = req.query.url;
   const format = req.query.format;
