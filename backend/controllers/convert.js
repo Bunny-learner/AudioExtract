@@ -2,6 +2,7 @@ import { asynchandler } from "../utils/asynchandler.js"
 import ytdlp from 'yt-dlp-exec'
 import fs from 'fs'
 import path from 'path'
+import os from 'os'
 
 const diffurl=asynchandler(async(req,res)=>{
 const url = req.query.url;
@@ -24,7 +25,7 @@ await video(url,res)
 })
 
 function clean(){
-  let directory=path.resolve('downloads')
+  let directory=path.resolve(os.tmpdir())
 if (fs.existsSync(directory)) {
 
   const files = fs.readdirSync(directory);
@@ -47,7 +48,7 @@ for (const file of files) {
 }
 
 async function downloadvideo(u) {
-  const outputpath= path.resolve('downloads', 'videooutput.%(ext)s')
+  const outputpath= path.resolve(os.tmpdir(), 'videooutput.%(ext)s')
 
     await ytdlp(u, {
       format: 'bestvideo+bestaudio/best',
@@ -56,11 +57,11 @@ async function downloadvideo(u) {
       forceOverwrites:true,
     noCacheDir: true})
     
-    const files = fs.readdirSync('downloads');
+    const files = fs.readdirSync(os.tmpdir());
     const videoFile = files.find(f => f.startsWith('videooutput.'));
     
     if (videoFile) {
-      const fullPath = path.resolve('downloads', videoFile);
+      const fullPath = path.resolve(os.tmpdir(), videoFile);
       console.log(" Video downloaded to:", fullPath);
       return fullPath;
 }
@@ -76,7 +77,7 @@ async function convert(u,which) {
 
 clean()
 
-    const outputFile = path.resolve('downloads', `output.${audioFormat}`);
+    const outputFile = path.resolve(os.tmpdir(), `output.${audioFormat}`);
 
     await ytdlp(u, {
       extractAudio: true,
