@@ -2,7 +2,7 @@ import { asynchandler } from "../utils/asynchandler.js"
 import fs from 'fs'
 import path from 'path'
 import os from 'os'
-import ytdlp from '../utils/ytdlp.js';
+import ytdlp from 'yt-dlp-exec'
 
 
 
