@@ -1,6 +1,8 @@
 import apk from "./app.js"
 import dotenv from "dotenv"
 dotenv.config()
+
+const PORT = process.env.PORT || 5000;
 try {
     
     apk.listen(PORT,()=>{
