@@ -3,8 +3,8 @@ import dotenv from "dotenv"
 dotenv.config()
 try {
     
-    apk.listen(3000,'0.0.0.0',()=>{
-        console.log(`listening to port 3000`)})
+    apk.listen(PORT,'0.0.0.0',()=>{
+        console.log(`listening to port ${PORT}`)})
         
 } catch (error) {
      console.log("not able to listen to the server!!")
