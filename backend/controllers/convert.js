@@ -7,7 +7,7 @@ import path from 'path'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const ytdlpPath = path.join(__dirname, '../bin/yt-dlp.exe'); // adjust if needed
+const ytdlpPath = path.join(__dirname, '../bin/yt-dlp'); // adjust if needed
 console.log(ytdlpPath,typeof ytdlpPath)
 console.log("..................")
 console.log("📍 yt-dlp path:", ytdlpPath); 
