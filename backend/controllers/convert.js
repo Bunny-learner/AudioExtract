@@ -1,9 +1,19 @@
 import { asynchandler } from "../utils/asynchandler.js"
 import fs from 'fs'
-import path from 'path'
 import os from 'os'
+import { create } from 'yt-dlp-exec';
 import { fileURLToPath } from 'url';
-import ytdlp from 'yt-dlp-exec'
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ytdlpPath = path.join(__dirname, '../bin/yt-dlp'); // adjust if needed
+console.log(ytdlpPath,typeof ytdlpPath)
+console.log("..................")
+console.log("📍 yt-dlp path:", ytdlpPath); 
+console.log("📎 Exists?", fs.existsSync(ytdlpPath)); 
+console.log("................")
+const custom = create(ytdlpPath);
+console.log(custom)
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -61,8 +71,7 @@ function clean() {
 async function downloadvideo(u) {
   const outputpath = path.join(os.tmpdir(), 'videooutput.%(ext)s');
   try {
-    await ytdlp(u, {
-      binary: ytdlpPath,
+    await custom(u, {
       format: 'bestvideo+bestaudio/best',
       output: outputpath,
       noCheckCertificates: true,
@@ -93,8 +102,7 @@ async function convert(u, which) {
     clean();
     const outputFile = path.join(os.tmpdir(), `output.${audioFormat}`);
 
-    await ytdlp(u, {
-       binary: ytdlpPath,
+    await custom(u, {
       extractAudio: true,
       audioFormat,
       output: outputFile,
@@ -157,8 +165,7 @@ const url = asynchandler(async (req, res) => {
   return res.status(500).json({ msg: "yt-dlp binary not found" });
 }
 
-    const info = await ytdlp(u, {
-       binary: ytdlpPath,
+    const info = await custom(u, {
       dumpSingleJson: true,
       noCheckCertificates: true,
       format: 'bestaudio[ext=m4a]'
