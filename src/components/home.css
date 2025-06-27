@@ -1,9 +1,10 @@
 .content{
     display: grid;
-    padding:20px;
+    width: 100vw;
     align-items: center;
     min-height: 10vh;
-    margin:100px 50px 50px 50px;
+    padding:10px;
+    margin-top:100px;
     border:1px solid #ddd;
     border-radius:8px ;
     background-color: whitesmoke;
@@ -12,10 +13,14 @@
 }
 
 
-.video span{
-    justify-content: center;
-    display:flex;
+select{
+    padding:10px;
 }
+select:focus{
+    transform: scale(1.12);
+    transition:ease-in 0.3s;
+}
+
 button{
     padding:20px;
     width:100px;
@@ -43,19 +48,59 @@ button:hover{
     border:1px solid #ddd;
     border-radius:30px ;
     padding:10px;
-    width:30vw;
+    width:150px;
     height: 35px;
     font-family: 'Times New Roman', Times, serif;
     font-size: 23px;
 }
 
 
-label{
-    font-size: 30px;
 
+
+
+
+iframe{
+width:760px;
+  height:415px
+}
+video{
+    width:500px;
 }
 
-/* @media only  screen and (){
 
+@media only screen and (max-width:768px){ 
     
-} */
+    video,iframe{
+        width:440px;
+    }
+    
+}
+
+
+
+
+
+@media only screen and (max-width:500px){ 
+    
+    video,iframe{
+        width:250px;
+        height:250px;
+    }
+    .url{
+        padding:5px;
+        font-size: 12px;
+    }
+    
+    h2{
+    font-size: 16px;
+
+}
+button{
+    padding:10px;
+    width: 70px;
+}
+select{
+    width:70px;
+    font-size: 11px;
+}
+}

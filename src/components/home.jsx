@@ -1,29 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './home.css'
 import Spinner from './spinner.js'
 import {useState} from 'react'
 
 
-
-
 export default function Home() {
 
+
+
 const [src,setsrc]=useState(" ")
+const [videosrc,setvideosrc]=useState(" ")
 const [text,settext]=useState(" ")
 const [loading,setloading]=useState(false)
 const [c,setc]=useState(false)
 const [id,setid]=useState("")
 const [ex,setex]=useState('m4a')
-
+const [counter,setcounter]=useState(0)
+const [intervalId,setIntervalId]=useState(null)
+  
   const getaudio = async () => {
     
     
     const url = document.getElementsByClassName('url')[0].value
-     const videoId = extractVideoId(url);
+    const videoId = extractVideoId(url);
     setid(`https://www.youtube.com/embed/${videoId}`) 
-
-    if(url.startsWith("https://"))
-  {
+  
+    if(url.startsWith("https://")){
 
 
     if(ex=='m4a'){
@@ -32,9 +34,11 @@ const [ex,setex]=useState('m4a')
     setc(true)
     
     setloading(true)
-   
-    settext('Loading, please wait..... ')
-    const response =await fetch("http://localhost:3000/url", {
+    settext('Loading, please wait.....Time remaining ')
+    startTimer()
+    
+    
+    const response =await fetch("http://192.168.1.2:3000/url", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,32 +53,78 @@ const [ex,setex]=useState('m4a')
   
     if(msg.src!="not found"){
     
-    setTimeout(() => {
-     
+    
+    fetchvideo(url)
+    .then((response)=>{
+      console.log(response+" video")
+      stopTimer()
       setloading(false)
-      settext(`You can download your audio ${ex} file now.`)
-    }, 500);
+      settext(`You can download your audio (${ex}) and video (mp4)  file now.`)
+    })
+    .catch((err)=>{console.log(err)
+      settext('Video download option failed')
+    })
+      
    
-    setsrc(msg.src)}
-  console.log(msg.src)}
-
+  setsrc(msg.src)
+  console.log(msg)}
+  }
 else{
 setc(true);
-settext("Wait few seconds");
-console.log(id)
-setTimeout(async () => {
-  await triggerDownload(url, ex);
-  settext("Downloading has finished.");
-}, 1000);
+setloading(true)
+
+settext("loading please wait ...")
+startTimer()
+
+    triggeraudioDownload(url, ex)
+  .then((response) => {
+    console.log(response+" audio")
+    fetchvideo(url)
+    .then((response)=>{
+      stopTimer()
+
+       settext("Audio Downloading has finished. check the downloads");
+    setloading(false);
+    })
+    .catch((err)=>{console.log(err)
+      settext('Video download option failed')
+    })
+  })
+  .catch((error) => {
+    console.error(error);
+    settext("Audio Download option failed.");
+    })
+
+
 
 }
-  }
+}
   else
   alert('Enter a valid Url')
   }
+  
 
- async function triggerDownload(url, format) {
-  const downloadUrl = `http://localhost:3000/diffurl?url=${encodeURIComponent(url)}&format=${format}`;
+  const startTimer = () => {
+  setcounter(30); 
+  const id = setInterval(() => {
+    setcounter((prev) => {
+      if (prev <= 1) {
+        clearInterval(id);
+        return 0;
+      }
+      return prev - 1;
+    });
+  }, 1000);
+  setIntervalId(id);
+};
+
+const stopTimer = () => {
+  if (intervalId) clearInterval(intervalId);
+  setIntervalId(null);
+};
+
+ async function triggeraudioDownload(url, format) {
+  const downloadUrl = `http://192.168.1.2:3000/audio?url=${encodeURIComponent(url)}&format=${format}`;
   const a = document.createElement('a');
   a.href = downloadUrl;
   a.download = `audio.${format}`;
@@ -82,6 +132,15 @@ setTimeout(async () => {
   a.click();
   a.remove();
   
+  return {response:"success"};
+}
+
+
+ async function fetchvideo(url) {
+  const response =await fetch(`http://192.168.1.2:3000/video?url=${encodeURIComponent(url)}`);
+  const blob = await response.blob();
+  const videoURL = URL.createObjectURL(blob);
+  setvideosrc(videoURL);
   return {response:"success"};
 }
  function extractVideoId(url) {
@@ -97,17 +156,18 @@ setTimeout(async () => {
 
   function see(e){
     const val=e.target.value
-    if(val==='mp3'||val==='wav')
+    console.log(val)
     setex(val)
+    
   }
 
   return (
     <div className='content'>
 
       <div className='search'>
-        <label htmlFor="texty">Enter the Url:</label>
         
-          <input type="text" onChange={look} id="texty" className="url" />
+        
+          <input type="text" onChange={look} id="texty" placeholder="Enter the url" className="url" />
           <select name="format" onChange={see} id="f">
             <option selected value="m4a">Mp4</option>
             <option  value="mp3">Mp3</option>
@@ -123,8 +183,6 @@ setTimeout(async () => {
       <h3>Youtube Video</h3>
       <span>
          <iframe
-  width="760"
-  height="415"
   src={id}
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -135,14 +193,18 @@ setTimeout(async () => {
 
     </div><br />
     <div className="audio">
-      <h2>{text}</h2>
-      {src &&<audio controls src={src}></audio>}
+    <h2>{text}</h2>
+      {src && ex=='m4a'&&<audio controls src={src}></audio>}
+    </div>
+    <br />
+    <div className="video">
+      {videosrc&&<video controls  src={videosrc}></video>}
     </div>
     </>
     
   ) : (
     <>
-      <h2>{text}</h2>
+      <h2 className="tex">{text}{counter} Seconds.</h2>
       <Spinner />
     </>
   )

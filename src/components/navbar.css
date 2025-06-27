@@ -1,12 +1,12 @@
 nav{
     display: flex;
     justify-content: space-around;
-    align-content: center;
+    align-items: center;
     width:100vw;
     height:40px;
-    padding-bottom:20px;
+    padding:10px;
     backdrop-filter: blur(10px);
-    background-color: rgba(112, 108, 108, 0.4);
+    background-color: rgba(42, 25, 196, 0.4);
     position:sticky;
     top:0px;
     font-size: 25px;
