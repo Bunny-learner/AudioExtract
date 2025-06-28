@@ -6,10 +6,11 @@ import { fileURLToPath } from 'url';
 import path from 'path'
 
 
-const cookiesPath = path.join(__dirname, '../cookies.txt');
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ytdlpPath = path.join(__dirname, '../bin/yt-dlp'); // adjust if needed
+const cookiesPath = path.join(__dirname, '../cookies.txt');
 console.log(ytdlpPath,typeof ytdlpPath)
 console.log("..................")
 console.log("📍 yt-dlp path:", ytdlpPath); 
