@@ -5,6 +5,8 @@ import { create } from 'yt-dlp-exec';
 import { fileURLToPath } from 'url';
 import path from 'path'
 
+
+const cookiesPath = path.join(__dirname, '../cookies.txt');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ytdlpPath = path.join(__dirname, '../bin/yt-dlp'); // adjust if needed
@@ -71,7 +73,8 @@ async function downloadvideo(u) {
       output: outputpath,
       noCheckCertificates: true,
       forceOverwrites: true,
-      noCacheDir: true
+      noCacheDir: true,
+      cookies:cookiesPath
     });
 
     const files = fs.readdirSync(os.tmpdir());
@@ -102,7 +105,8 @@ async function convert(u, which) {
       audioFormat,
       output: outputFile,
       noCheckCertificates: true,
-      noPlaylist: true
+      noPlaylist: true,
+      cookies:cookiesPath
     });
 
     const exists = fs.existsSync(outputFile);
@@ -163,7 +167,8 @@ const url = asynchandler(async (req, res) => {
     const info = await custom(u, {
       dumpSingleJson: true,
       noCheckCertificates: true,
-      format: 'bestaudio[ext=m4a]'
+      format: 'bestaudio[ext=m4a]',
+      cookies:cookiesPath
     });
 
     let audioUrl = info.url;
