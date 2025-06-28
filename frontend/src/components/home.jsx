@@ -63,6 +63,7 @@ const [intervalId,setIntervalId]=useState(null)
     })
     .catch((err)=>{console.log(err)
       settext('Video download option failed')
+      setloading(false)
     })
       
    
@@ -88,6 +89,7 @@ startTimer()
     })
     .catch((err)=>{console.log(err)
       settext('Video download option failed')
+      setloading(false)                   
     })
   })
   .catch((error) => {
@@ -105,7 +107,7 @@ startTimer()
   
 
   const startTimer = () => {
-  setcounter(40); 
+  setcounter(60); 
   const id = setInterval(() => {
     setcounter((prev) => {
       if (prev <= 1) {
